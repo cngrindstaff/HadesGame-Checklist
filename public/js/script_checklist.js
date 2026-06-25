@@ -481,6 +481,12 @@ $(document).ready(async function () {
     window._recordModal = recordModal;
 
     async function refreshChecklistAfterRecordChange(expandSectionId = null) {
+        const currentFilter = $('#filter-input').val().toLowerCase();
+        if (currentFilter) {
+            await applyFilterAndRender();
+            return;
+        }
+
         const sections = await dbUtils.getSectionsBySectionGroupId(sectionGroupId, showHidden);
         const allRecordsBySection = await fetchAllRecords(sections, showHidden);
         paintChecklist(sections, allRecordsBySection, {

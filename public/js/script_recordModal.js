@@ -247,6 +247,11 @@ export function initRecordModal({ gameId, defaultAlreadyCompleted = 0, onSave, g
         }
     }
 
+    function titleNeedsCasingOverride(title) {
+        const trimmed = String(title || '').trim();
+        return trimmed.length > 0 && trimmed !== toTitleCase(trimmed);
+    }
+
     recordNameInput.addEventListener('focus', () => { nameFieldTouched = true; });
     recordNamesTextarea.addEventListener('focus', () => { nameFieldTouched = true; });
     recordNameInput.addEventListener('blur', applyNameTitleCase);
@@ -403,6 +408,7 @@ export function initRecordModal({ gameId, defaultAlreadyCompleted = 0, onSave, g
 
         // Populate form with existing data
         recordNameInput.value = recordData.Name;
+        preserveCasingInput.checked = titleNeedsCasingOverride(recordData.Name);
         document.getElementById('description').value = recordData.Description || '';
         document.getElementById('numberOfCheckboxes').value = recordData.NumberOfCheckboxes;
         document.getElementById('numberAlreadyCompleted').value = recordData.NumberAlreadyCompleted;
